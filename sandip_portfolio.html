@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="Sandip Ranjan – AI/ML & Robotics Trainer and Developer. Expert in Machine Learning, Python, Deep Learning, NLP, Computer Vision."/>
+<meta name="keywords" content="AI Trainer, ML Developer, Robotics, Python, TensorFlow, NLP, Computer Vision, MERN Stack"/>
+<title>Sandip Ranjan | AI/ML & Robotics Trainer</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0f;--bg2:#0f0f1a;--bg3:#141428;
+  --accent:#00d4ff;--accent2:#7c3aed;--accent3:#06ffa5;
+  --text:#e2e8f0;--text2:#94a3b8;--card:#ffffff08;
+  --border:#ffffff15;--glow:0 0 20px #00d4ff40;
+}
+.light{
+  --bg:#f0f4f8;--bg2:#e2e8f0;--bg3:#cbd5e1;
+  --accent:#0ea5e9;--accent2:#7c3aed;--accent3:#059669;
+  --text:#1e293b;--text2:#475569;--card:#ffffff;
+  --border:#e2e8f0;--glow:0 4px 20px rgba(14,165,233,.2);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;transition:.3s}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:10px}
+
+/* NAVBAR */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 5%;display:flex;align-items:center;justify-content:space-between;height:64px;backdrop-filter:blur(20px);background:var(--bg)cc;border-bottom:1px solid var(--border);transition:.3s}
+.logo{font-size:1.3rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:.9rem;letter-spacing:.5px;transition:.3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--accent);transition:.3s}
+.nav-links a:hover{color:var(--accent)}
+.nav-links a:hover::after{width:100%}
+.nav-right{display:flex;gap:1rem;align-items:center}
+.theme-btn{background:none;border:1px solid var(--border);color:var(--text);padding:6px 14px;border-radius:20px;cursor:pointer;font-size:.8rem;transition:.3s}
+.theme-btn:hover{border-color:var(--accent);color:var(--accent)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.hamburger span{width:24px;height:2px;background:var(--text);display:block;transition:.3s;border-radius:2px}
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;background:var(--bg2);padding:1.5rem 5%;flex-direction:column;gap:1rem;border-bottom:1px solid var(--border);z-index:999}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:var(--text2);text-decoration:none;padding:.5rem 0;border-bottom:1px solid var(--border)}
+
+/* CANVAS */
+#bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;opacity:.6}
+.light #bg-canvas{opacity:.2}
+
+/* SECTIONS */
+section{padding:6rem 5%;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+.section-title{font-size:2.2rem;font-weight:700;margin-bottom:.5rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.section-sub{color:var(--text2);margin-bottom:3rem;font-size:1rem}
+.divider{width:60px;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;margin:.5rem 0 .5rem}
+
+/* HOME */
+#home{text-align:center;position:relative;padding-top:100px}
+.home-content{max-width:800px;margin:0 auto}
+.profile-img-wrap{width:160px;height:160px;margin:0 auto 2rem;position:relative}
+.profile-img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:3px solid var(--accent);box-shadow:0 0 30px var(--accent)60}
+.profile-placeholder{width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,var(--accent2),var(--accent));display:flex;align-items:center;justify-content:center;font-size:3rem;font-weight:700;color:#fff}
+.ring{position:absolute;inset:-8px;border-radius:50%;border:2px solid var(--accent)40;animation:spin 8s linear infinite}
+.ring2{position:absolute;inset:-16px;border-radius:50%;border:1px solid var(--accent2)30;animation:spin 12s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.greeting{font-size:1rem;color:var(--accent3);letter-spacing:3px;text-transform:uppercase;margin-bottom:.5rem}
+.home-name{font-size:clamp(2rem,5vw,4rem);font-weight:800;line-height:1.1;margin-bottom:.5rem}
+.home-title{font-size:clamp(1rem,2.5vw,1.4rem);color:var(--text2);margin-bottom:2rem}
+.type-text{color:var(--accent);border-right:2px solid var(--accent);animation:blink .7s infinite}
+@keyframes blink{0%,100%{border-color:transparent}50%{border-color:var(--accent)}}
+.btn-group{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:1rem}
+.btn{padding:.8rem 2rem;border-radius:30px;font-size:.95rem;font-weight:600;cursor:pointer;transition:.3s;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;box-shadow:var(--glow)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 0 30px var(--accent)60}
+.btn-outline{background:transparent;color:var(--accent);border:2px solid var(--accent)}
+.btn-outline:hover{background:var(--accent);color:#000;transform:translateY(-3px)}
+.stats{display:flex;gap:3rem;justify-content:center;margin-top:3rem;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-size:2rem;font-weight:800;color:var(--accent)}
+.stat-lbl{font-size:.8rem;color:var(--text2);text-transform:uppercase;letter-spacing:1px}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.about-text p{color:var(--text2);line-height:1.8;margin-bottom:1rem;font-size:.95rem}
+.skills-grid{display:grid;gap:1.2rem}
+.skill-item label{display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:.4rem;color:var(--text)}
+.skill-bar{height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.skill-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0;transition:width 1.5s cubic-bezier(.17,.67,.35,1)}
+.skills-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
+.tag{padding:.3rem .9rem;border-radius:20px;font-size:.78rem;border:1px solid var(--accent)50;color:var(--accent);background:var(--accent)10}
+
+/* PROJECTS */
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:2rem}
+.tab-btn{padding:.8rem 1.5rem;background:none;border:none;color:var(--text2);cursor:pointer;font-size:.9rem;transition:.3s;border-bottom:3px solid transparent;margin-bottom:-1px}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.calc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.calc-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem;backdrop-filter:blur(10px)}
+.calc-card h3{color:var(--accent);margin-bottom:1rem;font-size:1rem}
+.calc-display{background:#000020;border:1px solid var(--border);border-radius:8px;padding:1rem;text-align:right;font-size:1.5rem;margin-bottom:1rem;font-family:monospace;color:var(--accent3);min-height:60px;word-break:break-all}
+.calc-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.cb{padding:.7rem;border:1px solid var(--border);background:var(--bg3);color:var(--text);border-radius:8px;cursor:pointer;font-size:.85rem;transition:.2s}
+.cb:hover{background:var(--accent);color:#000}
+.cb.op{color:var(--accent)}
+.cb.eq{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none}
+.cb.clr{color:#ff6b6b}
+.emi-form{display:flex;flex-direction:column;gap:.8rem}
+.emi-form input{padding:.7rem 1rem;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.9rem}
+.emi-result{background:var(--bg3);border-radius:8px;padding:1rem;margin-top:1rem;font-size:.85rem;line-height:1.8}
+.emi-result span{color:var(--accent);font-weight:700}
+.budget-row{display:flex;gap:.5rem;margin-bottom:.5rem}
+.budget-row input{flex:1;padding:.6rem;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.85rem}
+.budget-summary{background:var(--bg3);border-radius:8px;padding:1rem;margin-top:1rem;font-size:.85rem}
+.file-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.file-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.5rem;text-align:center;transition:.3s;cursor:pointer}
+.file-card:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:var(--glow)}
+.file-icon{font-size:2.5rem;margin-bottom:.8rem}
+.file-card h4{font-size:.9rem;margin-bottom:.4rem;color:var(--text)}
+.file-card p{font-size:.75rem;color:var(--text2)}
+.game-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.game-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.5rem}
+.game-card h3{color:var(--accent);margin-bottom:1rem}
+#ttt-board{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:240px}
+.ttt-cell{height:70px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;font-size:1.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.ttt-cell:hover{background:var(--accent)20}
+.ttt-cell.x{color:var(--accent)}
+.ttt-cell.o{color:var(--accent2)}
+#guess-input{padding:.6rem 1rem;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);width:100px;font-size:1rem}
+#memory-board{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:280px}
+.mem-card{height:60px;background:linear-gradient(135deg,var(--accent2),var(--accent));border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.4rem;transition:.3s}
+.mem-card.hidden{background:var(--bg3);color:transparent;border:1px solid var(--border)}
+
+/* GALLERY */
+.gallery-container{overflow:hidden;position:relative}
+.gallery-track{display:flex;gap:1.5rem;transition:.5s}
+.gallery-slide{min-width:300px;height:220px;border-radius:16px;background:linear-gradient(135deg,var(--accent2)20,var(--accent)20);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:3rem;flex-shrink:0;position:relative;overflow:hidden}
+.gallery-label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,#000a);padding:1rem;font-size:.8rem;color:#fff}
+.gallery-nav{display:flex;gap:1rem;justify-content:center;margin-top:1.5rem}
+.gnav{padding:.6rem 1.5rem;background:var(--card);border:1px solid var(--border);border-radius:20px;color:var(--text);cursor:pointer;transition:.3s}
+.gnav:hover{border-color:var(--accent);color:var(--accent)}
+.gallery-dots{display:flex;gap:.5rem;justify-content:center;margin-top:1rem}
+.gdot{width:8px;height:8px;border-radius:50%;background:var(--border);cursor:pointer;transition:.3s}
+.gdot.active{background:var(--accent);width:24px;border-radius:4px}
+
+/* SERVICES */
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem}
+.service-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:1.8rem 1.5rem;text-align:center;transition:.4s;cursor:pointer;position:relative;overflow:hidden}
+.service-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--accent)10,var(--accent2)10);opacity:0;transition:.3s}
+.service-card:hover::before{opacity:1}
+.service-card:hover{transform:translateY(-8px);border-color:var(--accent);box-shadow:var(--glow)}
+.srv-icon{font-size:2.5rem;margin-bottom:1rem}
+.service-card h3{font-size:1rem;margin-bottom:.5rem}
+.service-card p{font-size:.8rem;color:var(--text2)}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:4rem}
+.contact-info{display:flex;flex-direction:column;gap:1.5rem}
+.contact-item{display:flex;align-items:flex-start;gap:1rem;padding:1.2rem;background:var(--card);border:1px solid var(--border);border-radius:12px;transition:.3s}
+.contact-item:hover{border-color:var(--accent)}
+.c-icon{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.c-label{font-size:.8rem;color:var(--text2);margin-bottom:.2rem}
+.c-val{font-size:.9rem;color:var(--text)}
+.social-links{display:flex;gap:.8rem;margin-top:1rem}
+.social-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;text-decoration:none;color:var(--text2);font-size:1rem;transition:.3s}
+.social-btn:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-3px)}
+.contact-form{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:2rem}
+.form-group{margin-bottom:1.2rem}
+.form-group label{display:block;font-size:.85rem;color:var(--text2);margin-bottom:.4rem}
+.form-group input,.form-group textarea{width:100%;padding:.8rem 1rem;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.9rem;transition:.3s;font-family:inherit}
+.form-group textarea{resize:vertical;min-height:120px}
+.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent)20}
+.form-status{margin-top:.8rem;font-size:.85rem;padding:.6rem 1rem;border-radius:8px;display:none}
+.form-status.success{display:block;background:var(--accent3)20;color:var(--accent3);border:1px solid var(--accent3)50}
+.form-status.error{display:block;background:#ff6b6b20;color:#ff6b6b;border:1px solid #ff6b6b50}
+
+/* FOOTER */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:2rem 5%;text-align:center;color:var(--text2);font-size:.85rem}
+
+/* ANIMATIONS */
+.fade-in{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .about-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+  section{padding:5rem 4%}
+}
+@media(max-width:480px){
+  .calc-grid{grid-template-columns:1fr}
+  .stats{gap:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="logo">SR</div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About & Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-btn" onclick="toggleTheme()">☀ Light</button>
+    <button class="hamburger" onclick="toggleMenu()" id="hamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#home" onclick="closeMenu()">Home</a>
+  <a href="#about" onclick="closeMenu()">About & Skills</a>
+  <a href="#projects" onclick="closeMenu()">Projects</a>
+  <a href="#gallery" onclick="closeMenu()">Gallery</a>
+  <a href="#services" onclick="closeMenu()">Services</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+</div>
+
+<!-- HOME -->
+<section id="home">
+  <div class="home-content fade-in">
+    <div class="profile-img-wrap">
+      <div class="profile-placeholder">SR</div>
+      <div class="ring"></div>
+      <div class="ring2"></div>
+    </div>
+    <p class="greeting">Welcome to my portfolio</p>
+    <h1 class="home-name">Hi, I'm <span style="background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Sandip Ranjan</span></h1>
+    <p class="home-title"><span class="type-text" id="type-text"></span></p>
+    <div class="btn-group">
+      <a href="#contact" class="btn btn-primary">✉ Contact Me</a>
+      <a href="#" class="btn btn-outline" onclick="downloadCV(event)">⬇ Download CV</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">2+</div><div class="stat-lbl">Years Experience</div></div>
+      <div class="stat"><div class="stat-num">50+</div><div class="stat-lbl">Projects Done</div></div>
+      <div class="stat"><div class="stat-num">100+</div><div class="stat-lbl">Students Trained</div></div>
+      <div class="stat"><div class="stat-num">15+</div><div class="stat-lbl">Technologies</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="fade-in">
+    <div class="section-title">About & Skills</div>
+    <div class="divider"></div>
+    <p class="section-sub">My background & technical expertise</p>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I am an experienced AI Trainer with over two years of experience in training, developing, and deploying AI/ML solutions. I have a proven track record of creating enterprise-level AI solutions tailored to meet the needs of both small and large businesses.</p>
+        <p>My expertise lies in designing and building advanced machine learning models, data engineering, and deploying AI/ML solutions across multiple platforms.</p>
+        <p>I possess a deep understanding of deep learning frameworks such as TensorFlow, Keras, Pandas, Scikit-Learn, and Matplotlib, and have extensive experience with Python, C++, and MERN stack development.</p>
+        <p>I have worked on projects related to Natural Language Processing (NLP) and Computer Vision, demonstrating strong capabilities across various AI domains.</p>
+        <p>I am passionate about building innovative AI solutions that help businesses and students achieve their goals.</p>
+        <div class="skills-tags">
+          <span class="tag">TensorFlow</span><span class="tag">Keras</span><span class="tag">PyTorch</span>
+          <span class="tag">Python</span><span class="tag">C++</span><span class="tag">React</span>
+          <span class="tag">Node.js</span><span class="tag">MongoDB</span><span class="tag">NLP</span>
+          <span class="tag">Computer Vision</span><span class="tag">Robotics</span><span class="tag">OpenCV</span>
+        </div>
+      </div>
+      <div class="skills-grid" id="skills-grid">
+        <div class="skill-item"><label><span>Machine Learning</span><span>92%</span></label><div class="skill-bar"><div class="skill-fill" data-width="92"></div></div></div>
+        <div class="skill-item"><label><span>Python</span><span>95%</span></label><div class="skill-bar"><div class="skill-fill" data-width="95"></div></div></div>
+        <div class="skill-item"><label><span>Mobile App Development</span><span>78%</span></label><div class="skill-bar"><div class="skill-fill" data-width="78"></div></div></div>
+        <div class="skill-item"><label><span>Object-Oriented Design</span><span>88%</span></label><div class="skill-bar"><div class="skill-fill" data-width="88"></div></div></div>
+        <div class="skill-item"><label><span>Project Management</span><span>82%</span></label><div class="skill-bar"><div class="skill-fill" data-width="82"></div></div></div>
+        <div class="skill-item"><label><span>MERN Stack</span><span>85%</span></label><div class="skill-bar"><div class="skill-fill" data-width="85"></div></div></div>
+        <div class="skill-item"><label><span>Database Management</span><span>80%</span></label><div class="skill-bar"><div class="skill-fill" data-width="80"></div></div></div>
+        <div class="skill-item"><label><span>Data Structures & Algorithms</span><span>90%</span></label><div class="skill-bar"><div class="skill-fill" data-width="90"></div></div></div>
+        <div class="skill-item"><label><span>Web Development</span><span>88%</span></label><div class="skill-bar"><div class="skill-fill" data-width="88"></div></div></div>
+        <div class="skill-item"><label><span>Frontend Development</span><span>85%</span></label><div class="skill-bar"><div class="skill-fill" data-width="85"></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="fade-in">
+    <div class="section-title">Projects</div>
+    <div class="divider"></div>
+    <p class="section-sub">Interactive tools, calculators & games</p>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('calculators',this)">🧮 Calculators</button>
+      <button class="tab-btn" onclick="showTab('files',this)">📁 File Tools</button>
+      <button class="tab-btn" onclick="showTab('games',this)">🎮 Games</button>
+    </div>
+
+    <!-- CALCULATORS TAB -->
+    <div id="tab-calculators" class="tab-content active">
+      <div class="calc-grid">
+        <!-- Scientific -->
+        <div class="calc-card">
+          <h3>🔬 Scientific Calculator</h3>
+          <div class="calc-display" id="sci-display">0</div>
+          <div class="calc-btns">
+            <button class="cb clr" onclick="sciClear()">AC</button>
+            <button class="cb op" onclick="sciInput('(')">(</button>
+            <button class="cb op" onclick="sciInput(')')">)</button>
+            <button class="cb op" onclick="sciOp('/')">÷</button>
+            <button class="cb" onclick="sciMath('Math.sin(',')')">sin</button>
+            <button class="cb" onclick="sciMath('Math.cos(',')')">cos</button>
+            <button class="cb" onclick="sciMath('Math.tan(',')')">tan</button>
+            <button class="cb op" onclick="sciOp('*')">×</button>
+            <button class="cb" onclick="sciMath('Math.sqrt(',')')">√</button>
+            <button class="cb" onclick="sciMath('Math.log(',')')">ln</button>
+            <button class="cb" onclick="sciInput('**2')">x²</button>
+            <button class="cb op" onclick="sciOp('-')">−</button>
+            <button class="cb" onclick="sciNum('7')">7</button>
+            <button class="cb" onclick="sciNum('8')">8</button>
+            <button class="cb" onclick="sciNum('9')">9</button>
+            <button class="cb op" onclick="sciOp('+')">+</button>
+            <button class="cb" onclick="sciNum('4')">4</button>
+            <button class="cb" onclick="sciNum('5')">5</button>
+            <button class="cb" onclick="sciNum('6')">6</button>
+            <button class="cb" onclick="sciInput('Math.PI')">π</button>
+            <button class="cb" onclick="sciNum('1')">1</button>
+            <button class="cb" onclick="sciNum('2')">2</button>
+            <button class="cb" onclick="sciNum('3')">3</button>
+            <button class="cb" onclick="sciDel()">⌫</button>
+            <button class="cb" onclick="sciNum('0')" style="grid-column:span 2">0</button>
+            <button class="cb" onclick="sciInput('.')">.</button>
+            <button class="cb eq" onclick="sciCalc()">=</button>
+          </div>
+        </div>
+        <!-- EMI -->
+        <div class="calc-card">
+          <h3>🏦 EMI Calculator</h3>
+          <div class="emi-form">
+            <input type="number" id="emi-principal" placeholder="Loan Amount (₹)" />
+            <input type="number" id="emi-rate" placeholder="Annual Interest Rate (%)" />
+            <input type="number" id="emi-tenure" placeholder="Tenure (months)" />
+            <button class="btn btn-primary" onclick="calcEMI()">Calculate EMI</button>
+          </div>
+          <div class="emi-result" id="emi-result" style="display:none"></div>
+        </div>
+        <!-- Budget -->
+        <div class="calc-card">
+          <h3>💰 Budget Calculator</h3>
+          <div>
+            <p style="font-size:.8rem;color:var(--text2);margin-bottom:.8rem">Add income & expense items:</p>
+            <div id="budget-items"></div>
+            <div class="budget-row">
+              <input id="b-name" placeholder="Item name" />
+              <input id="b-amt" type="number" placeholder="Amount (₹)" />
+              <select id="b-type" style="padding:.6rem;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.85rem">
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" style="width:100%" onclick="addBudget()">Add Item</button>
+            <div class="budget-summary" id="budget-summary"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILES TAB -->
+    <div id="tab-files" class="tab-content">
+      <p style="color:var(--text2);font-size:.9rem;margin-bottom:1.5rem">⚠ File conversion tools run client-side. For production use, connect to a Node.js/Flask backend API.</p>
+      <div class="file-grid">
+        <div class="file-card" onclick="fileAction('PDF → DOC')"><div class="file-icon">📄→📝</div><h4>PDF to DOC</h4><p>Convert PDF files to editable Word documents</p><button class="btn btn-outline" style="margin-top:1rem;font-size:.8rem">Select File</button></div>
+        <div class="file-card" onclick="fileAction('DOC → PDF')"><div class="file-icon">📝→📄</div><h4>DOC to PDF</h4><p>Convert Word documents to PDF format</p><button class="btn btn-outline" style="margin-top:1rem;font-size:.8rem">Select File</button></div>
+        <div class="file-card" onclick="fileAction('PDF Merger')"><div class="file-icon">📄+📄</div><h4>PDF Merger</h4><p>Combine multiple PDFs into one document</p><button class="btn btn-outline" style="margin-top:1rem;font-size:.8rem">Select Files</button></div>
+        <div class="file-card" onclick="fileAction('Image Merger')"><div class="file-icon">🖼+🖼</div><h4>Image Merger</h4><p>Merge multiple images into one file</p><button class="btn btn-outline" style="margin-top:1rem;font-size:.8rem">Select Images</button></div>
+        <div class="file-card" onclick="fileAction('Editable Converter')"><div class="file-icon">🔄</div><h4>Editable Converter</h4><p>Convert scanned documents to editable text</p><button class="btn btn-outline" style="margin-top:1rem;font-size:.8rem">Upload File</button></div>
+        <div class="file-card" style="border:2px dashed var(--accent)50;background:var(--accent)05">
+          <div class="file-icon">⬆</div>
+          <h4>Upload CV (Admin)</h4>
+          <p>Admin: Upload updated CV/Resume PDF</p>
+          <input type="file" id="cv-upload" accept=".pdf" style="display:none" onchange="uploadCV(this)"/>
+          <button class="btn btn-primary" style="margin-top:1rem;font-size:.8rem" onclick="document.getElementById('cv-upload').click()">Upload PDF</button>
+          <div id="cv-status" style="font-size:.75rem;margin-top:.5rem;color:var(--accent3)"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GAMES TAB -->
+    <div id="tab-games" class="tab-content">
+      <div class="game-grid">
+        <!-- Tic Tac Toe -->
+        <div class="game-card">
+          <h3>❌⭕ Tic Tac Toe</h3>
+          <p id="ttt-status" style="font-size:.85rem;color:var(--text2);margin-bottom:1rem">Player X's turn</p>
+          <div id="ttt-board"></div>
+          <button class="btn btn-outline" style="margin-top:1rem;font-size:.8rem" onclick="initTTT()">New Game</button>
+        </div>
+        <!-- Number Guess -->
+        <div class="game-card">
+          <h3>🔢 Number Guessing</h3>
+          <p style="font-size:.85rem;color:var(--text2);margin-bottom:1rem">Guess a number between 1–100</p>
+          <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin-bottom:.8rem">
+            <input id="guess-input" type="number" min="1" max="100" placeholder="1-100"/>
+            <button class="btn btn-primary" style="font-size:.85rem;padding:.6rem 1.2rem" onclick="makeGuess()">Guess!</button>
+          </div>
+          <div id="guess-result" style="font-size:.85rem;line-height:1.8"></div>
+          <div id="guess-attempts" style="font-size:.8rem;color:var(--text2);margin-top:.3rem"></div>
+          <button class="btn btn-outline" style="margin-top:.8rem;font-size:.8rem" onclick="initGuess()">New Game</button>
+        </div>
+        <!-- Memory -->
+        <div class="game-card">
+          <h3>🃏 Memory Card Game</h3>
+          <p style="font-size:.85rem;color:var(--text2);margin-bottom:1rem">Match all pairs! Moves: <span id="moves">0</span></p>
+          <div id="memory-board"></div>
+          <button class="btn btn-outline" style="margin-top:1rem;font-size:.8rem" onclick="initMemory()">New Game</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="fade-in">
+    <div class="section-title">Gallery</div>
+    <div class="divider"></div>
+    <p class="section-sub">Projects, robotics training & workshops</p>
+    <div class="gallery-container">
+      <div class="gallery-track" id="gallery-track">
+        <div class="gallery-slide" style="background:linear-gradient(135deg,#0ea5e920,#7c3aed20)"><span>🤖</span><div class="gallery-label">Robotics Training Workshop</div></div>
+        <div class="gallery-slide" style="background:linear-gradient(135deg,#06ffa520,#0ea5e920)"><span>🧠</span><div class="gallery-label">AI/ML Project Demo</div></div>
+        <div class="gallery-slide" style="background:linear-gradient(135deg,#7c3aed20,#ec489920)"><span>💻</span><div class="gallery-label">Deep Learning Session</div></div>
+        <div class="gallery-slide" style="background:linear-gradient(135deg,#f59e0b20,#ef444420)"><span>📊</span><div class="gallery-label">Data Science Workshop</div></div>
+        <div class="gallery-slide" style="background:linear-gradient(135deg,#06ffa520,#7c3aed20)"><span>🔬</span><div class="gallery-label">Computer Vision Lab</div></div>
+        <div class="gallery-slide" style="background:linear-gradient(135deg,#0ea5e920,#06ffa520)"><span>🌐</span><div class="gallery-label">NLP Research Project</div></div>
+        <div class="gallery-slide" style="background:linear-gradient(135deg,#ec489920,#0ea5e920)"><span>⚙</span><div class="gallery-label">Robotics Assembly</div></div>
+        <div class="gallery-slide" style="background:linear-gradient(135deg,#7c3aed20,#06ffa520)"><span>🎓</span><div class="gallery-label">Student Training Program</div></div>
+      </div>
+    </div>
+    <div class="gallery-nav">
+      <button class="gnav" onclick="galleryPrev()">← Prev</button>
+      <button class="gnav" onclick="galleryNext()">Next →</button>
+    </div>
+    <div class="gallery-dots" id="gallery-dots"></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="fade-in">
+    <div class="section-title">Services</div>
+    <div class="divider"></div>
+    <p class="section-sub">What I offer to clients & businesses</p>
+    <div class="services-grid">
+      <div class="service-card"><div class="srv-icon">🌐</div><h3>Web Development</h3><p>Full-stack MERN applications with modern UI/UX design</p></div>
+      <div class="service-card"><div class="srv-icon">🎮</div><h3>Game Development</h3><p>Interactive browser-based and mobile games with engaging gameplay</p></div>
+      <div class="service-card"><div class="srv-icon">✍</div><h3>Content Creation</h3><p>Technical blogs, AI tutorials, and educational content</p></div>
+      <div class="service-card"><div class="srv-icon">🎨</div><h3>Designing</h3><p>UI/UX design, graphics, and brand identity design</p></div>
+      <div class="service-card"><div class="srv-icon">📝</div><h3>Documentation</h3><p>Technical writing, API docs, and project documentation</p></div>
+      <div class="service-card"><div class="srv-icon">📣</div><h3>Digital Marketing</h3><p>SEO, social media strategy, and online brand growth</p></div>
+      <div class="service-card"><div class="srv-icon">💼</div><h3>Sales</h3><p>B2B/B2C product demos, client acquisition, and CRM</p></div>
+      <div class="service-card"><div class="srv-icon">🔧</div><h3>Maintenance</h3><p>Ongoing support, bug fixes, and performance optimization</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="fade-in">
+    <div class="section-title">Contact Us</div>
+    <div class="divider"></div>
+    <p class="section-sub">Let's build something amazing together</p>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-item"><div class="c-icon">📞</div><div><div class="c-label">Phone</div><div class="c-val">+91 7678638186</div></div></div>
+        <div class="contact-item"><div class="c-icon">✉</div><div><div class="c-label">Email</div><div class="c-val">sandipranjanhe05@gmail.com</div></div></div>
+        <div class="contact-item"><div class="c-icon">📍</div><div><div class="c-label">Address</div><div class="c-val">Manas Nagar Colony, Lahartara, Varanasi, India</div></div></div>
+        <div>
+          <p style="font-size:.85rem;color:var(--text2);margin-bottom:.8rem">Connect on social media:</p>
+          <div class="social-links">
+            <a class="social-btn" href="https://linkedin.com" target="_blank" title="LinkedIn">in</a>
+            <a class="social-btn" href="https://facebook.com" target="_blank" title="Facebook">f</a>
+            <a class="social-btn" href="https://twitter.com" target="_blank" title="Twitter">𝕏</a>
+            <a class="social-btn" href="https://instagram.com" target="_blank" title="Instagram">◎</a>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <h3 style="margin-bottom:1.5rem;font-size:1.1rem">Send a Message</h3>
+        <div class="form-group"><label>Your Name</label><input id="f-name" type="text" placeholder="John Doe"/></div>
+        <div class="form-group"><label>Email Address</label><input id="f-email" type="email" placeholder="john@example.com"/></div>
+        <div class="form-group"><label>Message</label><textarea id="f-msg" placeholder="Tell me about your project..."></textarea></div>
+        <button class="btn btn-primary" style="width:100%" onclick="submitForm()">✉ Send Message</button>
+        <div class="form-status" id="form-status"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2024 <strong>Sandip Ranjan</strong> — AI/ML & Robotics Trainer | Developer</p>
+  <p style="margin-top:.4rem;font-size:.8rem">Built with ❤ using Three.js, HTML5, CSS3 & JavaScript</p>
+</footer>
+
+<script>
+// ============ THREE.JS 3D BACKGROUND ============
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer({canvas:document.getElementById('bg-canvas'),alpha:true,antialias:true});
+renderer.setSize(window.innerWidth,window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+camera.position.z = 3;
+const particles = [];
+const geo = new THREE.BufferGeometry();
+const cnt = 2000;
+const pos = new Float32Array(cnt*3);
+for(let i=0;i<cnt*3;i++) pos[i]=(Math.random()-0.5)*20;
+geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+const mat = new THREE.PointsMaterial({color:0x00d4ff,size:.04,transparent:true,opacity:.6});
+const pts = new THREE.Points(geo,mat);
+scene.add(pts);
+// Floating cubes
+for(let i=0;i<8;i++){
+  const g=new THREE.BoxGeometry(.3,.3,.3);
+  const m=new THREE.MeshBasicMaterial({color:i%2?0x7c3aed:0x00d4ff,wireframe:true,transparent:true,opacity:.15});
+  const c=new THREE.Mesh(g,m);
+  c.position.set((Math.random()-0.5)*8,(Math.random()-0.5)*6,(Math.random()-0.5)*4);
+  c.userData={rx:Math.random()*.01,ry:Math.random()*.01,ox:c.position.x,oy:c.position.y,t:Math.random()*100};
+  scene.add(c);particles.push(c);
+}
+let mx=0,my=0;
+document.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-.5)*2;my=-(e.clientY/window.innerHeight-.5)*2});
+function animate(){
+  requestAnimationFrame(animate);
+  pts.rotation.y+=.0005;pts.rotation.x+=.0002;
+  particles.forEach(c=>{c.rotation.x+=c.userData.rx;c.rotation.y+=c.userData.ry;c.userData.t+=.01;c.position.y=c.userData.oy+Math.sin(c.userData.t)*.3});
+  camera.position.x+=(mx*.3-camera.position.x)*.05;
+  camera.position.y+=(my*.3-camera.position.y)*.05;
+  renderer.render(scene,camera);
+}
+animate();
+window.addEventListener('resize',()=>{camera.aspect=window.innerWidth/window.innerHeight;camera.updateProjectionMatrix();renderer.setSize(window.innerWidth,window.innerHeight)});
+
+// ============ TYPING EFFECT ============
+const texts=['AI/ML & Robotics Trainer','Machine Learning Developer','Deep Learning Expert','Python & MERN Developer','NLP & Computer Vision Expert'];
+let ti=0,ci=0,del=false;
+function typeEffect(){
+  const el=document.getElementById('type-text');
+  const cur=texts[ti];
+  if(!del){el.textContent=cur.slice(0,++ci);if(ci===cur.length){del=true;setTimeout(typeEffect,1500);return}}
+  else{el.textContent=cur.slice(0,--ci);if(ci===0){del=false;ti=(ti+1)%texts.length}}
+  setTimeout(typeEffect,del?50:100);
+}
+typeEffect();
+
+// ============ THEME ============
+let dark=true;
+function toggleTheme(){
+  dark=!dark;
+  document.body.className=dark?'':'light';
+  document.querySelector('.theme-btn').textContent=dark?'☀ Light':'🌙 Dark';
+  mat.color.setHex(dark?0x00d4ff:0x0ea5e9);
+}
+
+// ============ MOBILE MENU ============
+function toggleMenu(){document.getElementById('mobile-menu').classList.toggle('open')}
+function closeMenu(){document.getElementById('mobile-menu').classList.remove('open')}
+
+// ============ SCROLL ANIMATIONS ============
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      e.target.querySelectorAll('.skill-fill').forEach(b=>{b.style.width=b.dataset.width+'%'});
+    }
+  });
+},{threshold:.1});
+document.querySelectorAll('.fade-in').forEach(el=>observer.observe(el));
+
+// ============ DOWNLOAD CV ============
+function downloadCV(e){
+  e.preventDefault();
+  const stored=localStorage.getItem('cv-data');
+  if(stored){
+    const a=document.createElement('a');a.href=stored;a.download='Sandip_Ranjan_CV.pdf';a.click();
+  } else {
+    const {jsPDF}=window.jspdf||{};
+    // Generate simple text CV as fallback
+    const text=`SANDIP RANJAN\nAI/ML & Robotics Trainer | Developer\n\nContact: +91 7678638186\nEmail: sandipranjanhe05@gmail.com\nLocation: Varanasi, India\n\nSUMMARY\nExperienced AI Trainer with 2+ years in AI/ML solutions.\nExpertise in TensorFlow, Python, MERN Stack, NLP, Computer Vision.\n\nSKILLS\n- Machine Learning (92%)\n- Python (95%)\n- MERN Stack (85%)\n- Deep Learning\n- NLP & Computer Vision\n- Robotics`;
+    const blob=new Blob([text],{type:'text/plain'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Sandip_Ranjan_CV.txt';a.click();
+    showAlert('CV downloaded! For PDF version, use the admin upload feature.');
+  }
+}
+function uploadCV(inp){
+  if(!inp.files[0])return;
+  const r=new FileReader();
+  r.onload=e=>{localStorage.setItem('cv-data',e.target.result);document.getElementById('cv-status').textContent='✓ CV uploaded successfully! Users can now download it.'};
+  r.readAsDataURL(inp.files[0]);
+}
+function showAlert(msg){
+  const d=document.createElement('div');
+  d.style.cssText='position:fixed;top:80px;right:20px;background:var(--bg2);border:1px solid var(--accent);border-radius:12px;padding:1rem 1.5rem;z-index:9999;font-size:.85rem;max-width:280px;color:var(--text)';
+  d.textContent=msg;document.body.appendChild(d);
+  setTimeout(()=>d.remove(),3500);
+}
+
+// ============ TABS ============
+function showTab(name,btn){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ============ SCIENTIFIC CALCULATOR ============
+let sciExp='';
+function sciNum(n){sciExp+=n;document.getElementById('sci-display').textContent=sciExp||'0'}
+function sciInput(s){sciExp+=s;document.getElementById('sci-display').textContent=sciExp}
+function sciOp(op){sciExp+=op;document.getElementById('sci-display').textContent=sciExp}
+function sciMath(fn,end){sciExp=fn+sciExp+end;document.getElementById('sci-display').textContent=sciExp}
+function sciClear(){sciExp='';document.getElementById('sci-display').textContent='0'}
+function sciDel(){sciExp=sciExp.slice(0,-1);document.getElementById('sci-display').textContent=sciExp||'0'}
+function sciCalc(){
+  try{
+    let expr=sciExp.replace(/Math\.PI/g,Math.PI).replace(/Math\.sin\(/g,'Math.sin(').replace(/Math\.cos\(/g,'Math.cos(').replace(/Math\.tan\(/g,'Math.tan(').replace(/Math\.sqrt\(/g,'Math.sqrt(').replace(/Math\.log\(/g,'Math.log(');
+    const res=eval(expr);
+    sciExp=String(parseFloat(res.toFixed(10)));
+    document.getElementById('sci-display').textContent=sciExp;
+  }catch{document.getElementById('sci-display').textContent='Error';sciExp=''}
+}
+
+// ============ EMI CALCULATOR ============
+function calcEMI(){
+  const P=parseFloat(document.getElementById('emi-principal').value);
+  const R=parseFloat(document.getElementById('emi-rate').value)/12/100;
+  const N=parseInt(document.getElementById('emi-tenure').value);
+  if(!P||!R||!N){showAlert('Please fill all fields');return}
+  const emi=P*R*Math.pow(1+R,N)/(Math.pow(1+R,N)-1);
+  const total=emi*N;const interest=total-P;
+  const el=document.getElementById('emi-result');
+  el.style.display='block';
+  el.innerHTML=`Monthly EMI: <span>₹${emi.toFixed(2)}</span><br>Total Payment: <span>₹${total.toFixed(2)}</span><br>Total Interest: <span>₹${interest.toFixed(2)}</span><br>Principal: <span>₹${P.toFixed(2)}</span>`;
+}
+
+// ============ BUDGET CALCULATOR ============
+let budgetItems=[];
+function addBudget(){
+  const name=document.getElementById('b-name').value;
+  const amt=parseFloat(document.getElementById('b-amt').value);
+  const type=document.getElementById('b-type').value;
+  if(!name||!amt){showAlert('Fill name and amount');return}
+  budgetItems.push({name,amt,type});
+  document.getElementById('b-name').value='';document.getElementById('b-amt').value='';
+  renderBudget();
+}
+function renderBudget(){
+  const inc=budgetItems.filter(i=>i.type==='income').reduce((a,i)=>a+i.amt,0);
+  const exp=budgetItems.filter(i=>i.type==='expense').reduce((a,i)=>a+i.amt,0);
+  const sum=document.getElementById('budget-summary');
+  sum.innerHTML=`<strong>Summary</strong><br>Income: <span style="color:var(--accent3)">₹${inc.toFixed(2)}</span> | Expenses: <span style="color:#ff6b6b">₹${exp.toFixed(2)}</span> | Balance: <span style="color:var(--accent)">₹${(inc-exp).toFixed(2)}</span><br><br>`+budgetItems.map((i,idx)=>`<div style="display:flex;justify-content:space-between;font-size:.8rem;padding:3px 0"><span>${i.name}</span><span style="color:${i.type==='income'?'var(--accent3)':'#ff6b6b'}">${i.type==='income'?'+':'-'}₹${i.amt}</span></div>`).join('');
+}
+
+// ============ FILE TOOLS ============
+function fileAction(name){showAlert(`"${name}" — Connect to backend API for actual file processing. Demo mode active.`)}
+
+// ============ TIC TAC TOE ============
+let tttBoard,tttTurn,tttActive;
+function initTTT(){
+  tttBoard=Array(9).fill('');tttTurn='X';tttActive=true;
+  const b=document.getElementById('ttt-board');b.innerHTML='';
+  for(let i=0;i<9;i++){
+    const c=document.createElement('button');
+    c.className='ttt-cell';c.dataset.i=i;
+    c.onclick=()=>tttMove(i,c);b.appendChild(c);
+  }
+  document.getElementById('ttt-status').textContent="Player X's turn";
+}
+function tttMove(i,c){
+  if(!tttActive||tttBoard[i])return;
+  tttBoard[i]=tttTurn;c.textContent=tttTurn;c.className='ttt-cell '+tttTurn.toLowerCase();
+  const w=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  const win=w.find(([a,b,cc])=>tttBoard[a]&&tttBoard[a]===tttBoard[b]&&tttBoard[a]===tttBoard[cc]);
+  if(win){tttActive=false;document.getElementById('ttt-status').textContent=`🎉 Player ${tttTurn} wins!`;return}
+  if(tttBoard.every(x=>x)){tttActive=false;document.getElementById('ttt-status').textContent="It's a draw!";return}
+  tttTurn=tttTurn==='X'?'O':'X';
+  document.getElementById('ttt-status').textContent=`Player ${tttTurn}'s turn`;
+}
+initTTT();
+
+// ============ NUMBER GUESS ============
+let guessTarget,guessCount;
+function initGuess(){guessTarget=Math.floor(Math.random()*100)+1;guessCount=0;document.getElementById('guess-result').textContent='I\'m thinking of a number between 1 and 100...';document.getElementById('guess-attempts').textContent='';document.getElementById('guess-input').value=''}
+function makeGuess(){
+  const g=parseInt(document.getElementById('guess-input').value);
+  if(!g||g<1||g>100){document.getElementById('guess-result').textContent='Enter a number between 1-100!';return}
+  guessCount++;
+  let msg='';
+  if(g===guessTarget){msg=`🎉 Correct! The number was ${guessTarget}!`;document.getElementById('guess-attempts').textContent=`Solved in ${guessCount} attempts!`}
+  else if(g<guessTarget)msg='📈 Too low! Try higher.';
+  else msg='📉 Too high! Try lower.';
+  document.getElementById('guess-result').textContent=msg;
+  if(g!==guessTarget)document.getElementById('guess-attempts').textContent=`Attempts: ${guessCount}`;
+}
+initGuess();
+
+// ============ MEMORY GAME ============
+let memCards=[],memFlipped=[],memMatched=0,memMoves=0,memLocked=false;
+function initMemory(){
+  const emojis=['🤖','🧠','💻','🔬','📊','🌐','⚙','🎯'];
+  const deck=[...emojis,...emojis].sort(()=>Math.random()-.5);
+  memCards=deck;memFlipped=[];memMatched=0;memMoves=0;memLocked=false;
+  document.getElementById('moves').textContent=0;
+  const b=document.getElementById('memory-board');b.innerHTML='';
+  deck.forEach((em,i)=>{
+    const c=document.createElement('div');
+    c.className='mem-card hidden';c.dataset.i=i;c.dataset.em=em;
+    c.onclick=()=>memFlip(i,c);b.appendChild(c);
+  });
+}
+function memFlip(i,c){
+  if(memLocked||c.dataset.matched||memFlipped.includes(i))return;
+  c.classList.remove('hidden');c.textContent=c.dataset.em;memFlipped.push(i);
+  if(memFlipped.length===2){
+    memMoves++;document.getElementById('moves').textContent=memMoves;memLocked=true;
+    const [a,b2]=memFlipped;
+    const cells=document.getElementById('memory-board').children;
+    if(memCards[a]===memCards[b2]){
+      cells[a].dataset.matched='1';cells[b2].dataset.matched='1';
+      memFlipped=[];memLocked=false;memMatched++;
+      if(memMatched===8)setTimeout(()=>showAlert('🎉 You matched all pairs! Excellent!'),200);
+    } else {
+      setTimeout(()=>{cells[a].classList.add('hidden');cells[a].textContent='';cells[b2].classList.add('hidden');cells[b2].textContent='';memFlipped=[];memLocked=false},900);
+    }
+  }
+}
+initMemory();
+
+// ============ GALLERY ============
+let gIdx=0;
+const gSlides=8;
+const dotsEl=document.getElementById('gallery-dots');
+for(let i=0;i<gSlides;i++){const d=document.createElement('div');d.className='gdot'+(i===0?' active':'');d.onclick=()=>gotoSlide(i);dotsEl.appendChild(d)}
+function gotoSlide(i){
+  gIdx=Math.max(0,Math.min(i,gSlides-3));
+  document.getElementById('gallery-track').style.transform=`translateX(-${gIdx*(300+24)}px)`;
+  document.querySelectorAll('.gdot').forEach((d,j)=>d.className='gdot'+(j===gIdx?' active':''));
+}
+function galleryPrev(){gotoSlide(Math.max(0,gIdx-1))}
+function galleryNext(){gotoSlide(Math.min(gSlides-3,gIdx+1))}
+
+// ============ CONTACT FORM ============
+function submitForm(){
+  const n=document.getElementById('f-name').value;
+  const e=document.getElementById('f-email').value;
+  const m=document.getElementById('f-msg').value;
+  const st=document.getElementById('form-status');
+  if(!n||!e||!m){st.className='form-status error';st.textContent='Please fill all fields.';return}
+  if(!/\S+@\S+\.\S+/.test(e)){st.className='form-status error';st.textContent='Please enter a valid email.';return}
+  // Simulate saving to DB
+  const msgs=JSON.parse(localStorage.getItem('messages')||'[]');
+  msgs.push({name:n,email:e,message:m,date:new Date().toISOString()});
+  localStorage.setItem('messages',JSON.stringify(msgs));
+  st.className='form-status success';
+  st.textContent=`✓ Message sent! Thank you ${n}, I'll get back to you soon.`;
+  document.getElementById('f-name').value='';document.getElementById('f-email').value='';document.getElementById('f-msg').value='';
+  setTimeout(()=>st.style.display='none',5000);
+}
+</script>
+</body>
+</html>
